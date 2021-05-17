@@ -4,7 +4,6 @@ import com.sellandsign.test.security.AuthSuccessHandler;
 import com.sellandsign.test.security.JWTAuthorizationFilter;
 import com.sellandsign.test.security.apikey.APIKeyAuthFilter;
 import com.sellandsign.test.security.apikey.APIKeyAuthenticationProvider;
-import com.sellandsign.test.security.user.UserAuthFilter;
 import com.sellandsign.test.security.user.UserDetailsServiceImpl;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -53,7 +52,6 @@ public class MultipleHttpSecurity {
 					.anyRequest().authenticated()
 					.and()
 					.addFilterBefore(new APIKeyAuthFilter(authenticationManager()), JWTAuthorizationFilter.class)
-					.addFilterAfter(new UserAuthFilter(authenticationManager()), APIKeyAuthFilter.class)
 					.addFilter(new JWTAuthorizationFilter(authenticationManager()))
 					.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
 		}
@@ -75,6 +73,18 @@ public class MultipleHttpSecurity {
 			return auth;
 		}
 
+		private  final String[] AUTH_WHITELIST = {
+				"/swagger-resources",
+				"/swagger-resources/**",
+				"/configuration/ui",
+				"/configuration/security",
+				"/swagger-ui.html",
+				"/webjars/**",
+				"/v3/api-docs/**",
+				"/swagger-ui/**"
+		};
+
+
 		@Override
 		public void configure(AuthenticationManagerBuilder auth) {
 			auth.authenticationProvider(authenticationProvider());
@@ -83,7 +93,9 @@ public class MultipleHttpSecurity {
 		protected void configure(HttpSecurity http) throws Exception {
 			http.authorizeRequests()
 					.antMatchers("/signup").permitAll()
+					.antMatchers(AUTH_WHITELIST).permitAll()
 					.antMatchers("/user").hasAuthority("ADMIN")
+					.antMatchers("/recipients/add").hasAnyAuthority("ADMIN","WRITE")
 					.anyRequest().authenticated()
 					.and()
 					.formLogin()
