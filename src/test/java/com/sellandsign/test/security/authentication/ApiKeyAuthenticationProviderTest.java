@@ -4,8 +4,10 @@ import com.sellandsign.test.repository.h2.apikey.ApiKeyRepository;
 import com.sellandsign.test.model.apikey.ApiKey;
 import com.sellandsign.test.security.apikey.APIKeyAuthenticationProvider;
 import com.sellandsign.test.security.apikey.APIKeyAuthenticationToken;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.springframework.security.authentication.InternalAuthenticationServiceException;
 import org.springframework.security.core.Authentication;
 
 import java.util.Optional;
@@ -39,5 +41,8 @@ public class ApiKeyAuthenticationProviderTest {
 		APIKeyAuthenticationToken authenticationToken = new APIKeyAuthenticationToken(UUID.randomUUID());
 		when(apiKeyRepository.findByKey(any())).thenReturn(Optional.empty());
 		apiKeyAuthenticationProvider.authenticate(authenticationToken);
+		Assertions.assertThrows(InternalAuthenticationServiceException.class, () -> {
+			apiKeyAuthenticationProvider.authenticate(authenticationToken);
+		});
 	}
 }
