@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="https://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head>
+    <title>Users</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
+          integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh"
+          crossorigin="anonymous" />
+</head>
+<body>
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav mr-auto">
+                <li class="nav-item">
+                    <div sec:authorize="hasAnyAuthority('ADMIN','WRITE')">
+                        <a class="nav-link" th:href="@{/recipients/add}">Add recipient</a>
+                    </div>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" th:href="@{/recipients}">Recipients</a>
+                </li>
+                <li class="nav-item">
+                    <div sec:authorize="hasAuthority('ADMIN')">
+                        <a class="nav-link" th:href="@{/users}">Users</a>
+                    </div>
+
+                </li>
+                <li class="nav-item active">
+                    <a class="nav-link" th:href="@{/logout}">Logout</a>
+                </li>
+            </ul>
+        </div>
+    </nav>
+    <h1>User page!</h1>
+    <table class="table">
+        <thead>
+            <tr>
+                <th scope="col"> Username </th>
+                <th scope="col"> Role </th>
+                <th scope="col"> Action </th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr th:each="user1 : ${users}">
+                <td><span th:text="${user1.username}"> Username </span></td>
+                <td><span th:text="${user1.role}"> Role </span></td>
+                <form action="#" th:action="@{/user/update}" method="post">
+                      <input name="id"  id="id" hidden th:value="${user1.id}">
+                    <input name="role" id="role" hidden th:value="${user1.role}">
+                        <td><button th:text="${user1.role.name()}=='READ_ONLY' ? 'Give Write acces' : 'Give Read Only'"
+                                    type="submit" class="btn btn-primary">Give rights</button></td>
+                </form>
+            </tr>
+
+        </tbody>
+    </table>
+
+    <form th:action="@{/signup/apikey}" method="post">
+        <div><input type="submit" value="Add ApiKey"/></div>
+    </form>
+    <table class="table">
+        <thead>
+        <tr>
+            <th scope="col"> Id </th>
+            <th scope="col"> apikey </th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="apikey : ${apikeys}">
+            <td><span th:text="${apikey.id}"> id </span></td>
+            <td><span th:text="${apikey.key}"> Key </span></td>
+        </tr>
+
+        </tbody>
+    </table>
+</body>
+</html>

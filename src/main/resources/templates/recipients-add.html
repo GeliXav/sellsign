@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="https://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head>
+    <title>Recipients</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
+          integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh"
+          crossorigin="anonymous" />
+</head>
+    <body>
+        <nav class="navbar navbar-expand-lg navbar-light bg-light">
+            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                <ul class="navbar-nav mr-auto">
+                    <li class="nav-item">
+                        <div sec:authorize="hasAnyAuthority('ADMIN','WRITE')">
+                            <a class="nav-link" th:href="@{/recipients/add}">Add recipient</a>
+                        </div>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" th:href="@{/recipients}">Recipients</a>
+                    </li>
+                    <li class="nav-item">
+                        <div sec:authorize="hasAuthority('ADMIN')">
+                            <a class="nav-link" th:href="@{/users}">Users</a>
+                        </div>
+
+                    </li>
+                    <li class="nav-item active">
+                        <a class="nav-link" th:href="@{/logout}">Logout</a>
+                    </li>
+                </ul>
+            </div>
+        </nav>
+        <h1>Recipients</h1>
+        <form th:action="@{/recipients}" th:object="${recipient}" method="post">
+
+            <div class="form-group">
+                <label class="control-label"for="civility"> Civility </label>
+                <input th:field="*{civility}" class="form-control" id="civility" type="number" min="0" max="1" name="civility" required />
+            </div>
+
+            <div class="form-group">
+                <label class="control-label"  for="firstname"> Firstname </label>
+                <input th:field="*{firstname}"  class="form-control" id="firstname" name="firstname"/>
+            </div>
+
+            <div class="form-group">
+                <label class="control-label" for="lastname"> LastName </label>
+                <input th:field="*{lastname}" class="form-control" id="lastname" name="lastname"/>
+            </div>
+            <div class="form-group">
+                <label class="control-label" for="email"> Email </label>
+                <input th:field="*{email}" class="form-control" id="email" name="email"/>
+            </div>
+            <div class="form-group">
+                <label class="control-label" for="address1"> Adress </label>
+                <input th:field="*{address1}" class="form-control" id="address1" name="address_1"/>
+            </div>
+            <div class="form-group">
+                <label class="control-label" for="postalCode"> Postal code </label>
+                <input th:field="*{postalCode}" class="form-control" id="postalCode" name="postalCode"/>
+            </div>
+            <div class="form-group">
+                <label class="control-label" for="city"> City </label>
+                <input th:field="*{city}" class="form-control" id="city" name="city"/>
+            </div>
+            <div class="form-group">
+                <label class="control-label" for="cellPhone"> CellPhone </label>
+                <input th:field="*{cellPhone}" class="form-control" id="cellPhone" name="cellPhone"/>
+            </div>
+            <div class="form-group">
+                <label class="control-label" for="localisation"> Localisation </label>
+                <input th:field="*{localisation}" class="form-control" id="localisation" name="localisation"/>
+            </div>
+
+            <div class="form-group">
+                <button type="submit" class="btn btn-primary">Add new recipient</button>
+            </div>
+        </form>
+    </body>
+</html>

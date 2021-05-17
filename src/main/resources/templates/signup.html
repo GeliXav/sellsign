@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html xmlns:th="https://www.thymeleaf.org">
+<head>
+    <meta charset="ISO-8859-1">
+    <title>Registration</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
+          integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh"
+          crossorigin="anonymous" />
+</head>
+<body>
+
+
+<br>
+<br>
+<!-- Create HTML registration form -->
+<div class="container-fluid text-center">
+    <h1>Registration</h1>
+
+    <div th:if="${param.success}">
+        <div class="alert alert-info">You've successfully registered
+            to our awesome app!</div>
+    </div>
+
+
+    <form th:action="@{/signup}" th:object="${user}" method="post">
+
+        <div class="form-group">
+            <label class="control-label" for="userName"> Username </label>
+            <input th:field="*{username}" id="username" name="username" required />
+        </div>
+
+        <div class="form-group">
+            <label class="control-label" for="password"> Password </label>
+            <input th:field="*{password}" id="password" name="password" type="password" required />
+        </div>
+
+        <div class="form-group">
+            <button type="submit" class="btn btn-primary">Register</button>
+            <span>Already registered? <a href="/" th:href="@{/login}">Login
+                        here</a></span>
+        </div>
+    </form>
+</div>
+</body>
+</html>
