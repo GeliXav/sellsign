@@ -29,7 +29,7 @@ public class RecipientService {
 
 	public Optional<Recipient> getRecipientByEmail(String email) {
 		log.info("Fetching recipient with email : {}", email);
-		return recipientRepository.findByEmail(email);
+		return recipientRepository.findFirstByEmail(email);
 	}
 
 	public Long addRecipient(Recipient recipient) {
