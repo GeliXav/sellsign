@@ -1,10 +1,9 @@
 package com.sellandsign.test.security.authentication;
 
-import com.sellandsign.test.repository.h2.apikey.ApiKeyRepository;
 import com.sellandsign.test.model.apikey.ApiKey;
+import com.sellandsign.test.repository.h2.apikey.ApiKeyRepository;
 import com.sellandsign.test.security.apikey.APIKeyAuthenticationProvider;
 import com.sellandsign.test.security.apikey.APIKeyAuthenticationToken;
-import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.security.authentication.InternalAuthenticationServiceException;
@@ -13,6 +12,7 @@ import org.springframework.security.core.Authentication;
 import java.util.Optional;
 import java.util.UUID;
 
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.mock;
@@ -40,8 +40,7 @@ public class ApiKeyAuthenticationProviderTest {
 	public void testAuthenticationFailure() {
 		APIKeyAuthenticationToken authenticationToken = new APIKeyAuthenticationToken(UUID.randomUUID());
 		when(apiKeyRepository.findByKey(any())).thenReturn(Optional.empty());
-		apiKeyAuthenticationProvider.authenticate(authenticationToken);
-		Assertions.assertThrows(InternalAuthenticationServiceException.class, () -> {
+		assertThrows(InternalAuthenticationServiceException.class, () -> {
 			apiKeyAuthenticationProvider.authenticate(authenticationToken);
 		});
 	}
