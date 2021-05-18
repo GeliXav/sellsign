@@ -13,12 +13,22 @@ You'll need Java 11 and Maven.
 
 # How to launch
 
-To launch the embedded tomcat just run :
+You can either :
 
+Get the Docker image from my dockerhub :
 ```
-mvn spring-boot:run
+docker pull gelix/sellsign:1.1
+
+docker run -d -p 8080:8080 -t gelix/sellsign:1.1
 ```
 
+Build the jar directly with :
+```
+git clone
+mvn clean package 
+docker build -t gelix/sellsign:1.1 .
+docker run -d -p 8080:8080 -t gelix/sellsign:1.1
+```
 ## Use the app
 
 To access the front-end just go to localhost:8080. 
