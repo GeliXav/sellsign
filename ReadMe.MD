@@ -13,10 +13,10 @@ You'll need Java 11 and Maven.
 
 # How to launch
 
-To launch the embedded tomcat just run :
+To build the war run :
 
 ```
-mvn spring-boot:run
+mvn clean package
 ```
 
 ## Use the app
