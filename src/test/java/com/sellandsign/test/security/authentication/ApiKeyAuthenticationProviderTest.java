@@ -40,7 +40,6 @@ public class ApiKeyAuthenticationProviderTest {
 	public void testAuthenticationFailure() {
 		APIKeyAuthenticationToken authenticationToken = new APIKeyAuthenticationToken(UUID.randomUUID());
 		when(apiKeyRepository.findByKey(any())).thenReturn(Optional.empty());
-		apiKeyAuthenticationProvider.authenticate(authenticationToken);
 		Assertions.assertThrows(InternalAuthenticationServiceException.class, () -> {
 			apiKeyAuthenticationProvider.authenticate(authenticationToken);
 		});
